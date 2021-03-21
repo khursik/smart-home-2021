@@ -13,15 +13,15 @@ import java.util.List;
 
 public class ModelImpl implements Model {
     private final Datasource datasource;
-    private final Logger view;
+    private final Logger logger;
     private final CommandSender commandSender;
     private final List<EventProcessor> processors;
     private SmartHome data;
 
 
-    public ModelImpl(Datasource datasource, Logger view, CommandSender commandSender) {
+    public ModelImpl(Datasource datasource, Logger logger, CommandSender commandSender) {
         this.datasource = datasource;
-        this.view = view;
+        this.logger = logger;
         this.commandSender = commandSender;
         this.processors = new ArrayList<>();
     }
@@ -33,12 +33,9 @@ public class ModelImpl implements Model {
 
     @Override
     public void handleEvent(SensorEvent event) {
-        view.printMessage("Got event: " + event);
+        logger.printMessage("Got event: " + event);
         for (EventProcessor processor : processors) {
-            String message = processor.process(event, data, commandSender);
-            if (message != null) {
-                view.printMessage(message);
-            }
+            processor.process(event, data, commandSender, logger);
         }
     }
 
