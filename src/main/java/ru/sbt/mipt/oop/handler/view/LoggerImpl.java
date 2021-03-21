@@ -1,8 +1,8 @@
 package ru.sbt.mipt.oop.handler.view;
 
-public class ConsoleView implements View {
+public class LoggerImpl implements Logger {
     @Override
-    public void addMessage(String message) {
+    public void printMessage(String message) {
         System.out.println(message);
     }
 }

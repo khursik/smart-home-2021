@@ -12,17 +12,24 @@ import ru.sbt.mipt.oop.models.things.Thing;
 import ru.sbt.mipt.oop.models.things.impl.Door;
 import ru.sbt.mipt.oop.models.things.impl.Light;
 
-public class DoorClosedProcessor implements EventProcessor {
-
+public class HallDoorClosedProcessor implements EventProcessor {
     @Override
     public String process(SensorEvent event, SmartHome home, CommandSender commandSender) {
         if (event instanceof DoorClosedEvent) {
             for (Room room : home.getRooms()) {
                 for (Thing door : room.getSpecified(Door.class)) {
-                    if (door.getId().equals(event.getObjectId())) {
+                    if (door.getId().equals(event.getObjectId()) && room.getName().equals("hall")) {
                         //Предполагается, что id уникальный
-                        ((Door) door).setOpen(false);
-                        return "Door " + door.getId() + " in room " + room.getName() + " was closed.";
+                        // если мы получили событие о закрытие двери в холле - это значит, что была закрыта входная дверь.
+                        // в этом случае мы хотим автоматически выключить свет во всем доме (это же умный дом!)
+                        for (Room homeRoom : home.getRooms()) {
+                            for (Thing light : homeRoom.getSpecified(Light.class)) {
+                                ((Light) light).setOn(false);
+                                SensorCommand command = new LightOffCommand(light.getId());
+                                commandSender.sendCommand(command);
+                            }
+                        }
+                        return null;
                     }
                 }
             }

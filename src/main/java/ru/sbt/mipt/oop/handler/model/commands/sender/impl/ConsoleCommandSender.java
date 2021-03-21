@@ -6,6 +6,6 @@ import ru.sbt.mipt.oop.handler.model.commands.sender.CommandSender;
 public class ConsoleCommandSender implements CommandSender {
     @Override
     public void sendCommand(SensorCommand command) {
-        System.out.println("Pretent we're sending command " + command);
+        System.out.println("Prevent we're sending command " + command);
     }
 }
