@@ -1,24 +1,24 @@
 package ru.sbt.mipt.oop.handler.controller.impl;
 
 import ru.sbt.mipt.oop.handler.controller.Controller;
-import ru.sbt.mipt.oop.handler.model.Model;
+import ru.sbt.mipt.oop.handler.model.Manager;
 import ru.sbt.mipt.oop.models.events.SensorEvent;
 
 public class ControllerImpl implements Controller {
-    private final Model model;
+    private final Manager manager;
 
-    public ControllerImpl(Model model) {
-        this.model = model;
+    public ControllerImpl(Manager manager) {
+        this.manager = manager;
     }
 
     @Override
     public void gotEvent(SensorEvent event) {
-        model.handleEvent(event);
+        manager.handleEvent(event);
     }
 
     @Override
     public void refresh() {
-        model.loadData();
+        manager.loadData();
     }
 
 }
