@@ -7,9 +7,18 @@ import ru.sbt.mipt.oop.handler.model.commands.sender.impl.ConsoleCommandSender;
 import ru.sbt.mipt.oop.handler.model.data.Datasource;
 import ru.sbt.mipt.oop.handler.model.data.JsonDatasource;
 import ru.sbt.mipt.oop.handler.model.impl.ManagerImpl;
+import ru.sbt.mipt.oop.handler.model.impl.AlarmSystemManager;
+import ru.sbt.mipt.oop.handler.model.impl.ModelImpl;
 import ru.sbt.mipt.oop.handler.model.processor.impl.*;
 import ru.sbt.mipt.oop.handler.view.LoggerImpl;
 import ru.sbt.mipt.oop.handler.view.Logger;
+import ru.sbt.mipt.oop.models.events.SensorEvent;
+import ru.sbt.mipt.oop.models.events.impl.DoorClosedEvent;
+import ru.sbt.mipt.oop.models.events.impl.DoorOpenEvent;
+import ru.sbt.mipt.oop.models.events.impl.LightOffEvent;
+import ru.sbt.mipt.oop.models.events.impl.LightOnEvent;
+import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmActivate;
+import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmDeactivate;
 import ru.sbt.mipt.oop.models.events.generator.SensorEventGenerator;
 import ru.sbt.mipt.oop.models.events.generator.impl.SensorEventGeneratorImpl;
 
@@ -36,9 +45,10 @@ public class Application {
         manager.addProcessor(new DoorOpenProcessor());
         manager.addProcessor(new HallDoorClosedProcessor());
 
-        Controller controller = new ControllerImpl(manager);
+        AlarmSystemManager alarmSystemManager = new AlarmSystemManager(model);
+
+        Controller controller = new ControllerImpl(alarmSystemManager);
         return controller;
 
     }
-
 }
