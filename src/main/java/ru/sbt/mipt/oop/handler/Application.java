@@ -6,6 +6,7 @@ import ru.sbt.mipt.oop.handler.model.commands.sender.CommandSender;
 import ru.sbt.mipt.oop.handler.model.commands.sender.impl.ConsoleCommandSender;
 import ru.sbt.mipt.oop.handler.model.data.Datasource;
 import ru.sbt.mipt.oop.handler.model.data.JsonDatasource;
+import ru.sbt.mipt.oop.handler.model.impl.AlarmSystemManager;
 import ru.sbt.mipt.oop.handler.model.impl.ModelImpl;
 import ru.sbt.mipt.oop.handler.model.processor.impl.*;
 import ru.sbt.mipt.oop.handler.view.LoggerImpl;
@@ -15,6 +16,8 @@ import ru.sbt.mipt.oop.models.events.impl.DoorClosedEvent;
 import ru.sbt.mipt.oop.models.events.impl.DoorOpenEvent;
 import ru.sbt.mipt.oop.models.events.impl.LightOffEvent;
 import ru.sbt.mipt.oop.models.events.impl.LightOnEvent;
+import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmActivate;
+import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmDeactivate;
 
 public class Application {
 
@@ -42,7 +45,9 @@ public class Application {
         model.addProcessor(new DoorOpenProcessor());
         model.addProcessor(new HallDoorClosedProcessor());
 
-        Controller controller = new ControllerImpl(model);
+        AlarmSystemManager alarmSystemManager = new AlarmSystemManager(model);
+
+        Controller controller = new ControllerImpl(alarmSystemManager);
         return controller;
 
     }
@@ -50,8 +55,9 @@ public class Application {
     private static SensorEvent getNextSensorEvent() {
         // pretend like we're getting the events from physical world, but here we're going to just generate some random events
         if (Math.random() < 0.05) return null; // null means end of event stream
-        String objectId = "" + ((int) (10 * Math.random()));
-        switch ((int) (4 * Math.random())) {
+        String objectId = Integer.toString((int) (10 * Math.random()));
+        String code = Integer.toString((int) (5 * Math.random()));
+        switch ((int) (6 * Math.random())) {
             case 0:
                 return new LightOnEvent(objectId);
             case 1:
@@ -60,6 +66,10 @@ public class Application {
                 return new DoorClosedEvent(objectId);
             case 3:
                 return new DoorOpenEvent(objectId);
+            case 4:
+                return new AlarmActivate(code);
+            case 5:
+                return new AlarmDeactivate(code);
         }
         return null;
     }
