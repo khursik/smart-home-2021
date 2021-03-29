@@ -10,8 +10,8 @@ import ru.sbt.mipt.oop.handler.model.impl.ManagerImpl;
 import ru.sbt.mipt.oop.handler.model.processor.impl.*;
 import ru.sbt.mipt.oop.handler.view.LoggerImpl;
 import ru.sbt.mipt.oop.handler.view.Logger;
-
-import static ru.sbt.mipt.oop.models.events.SensorEventProcessor.processEvent;
+import ru.sbt.mipt.oop.models.events.generator.SensorEventGenerator;
+import ru.sbt.mipt.oop.models.events.generator.impl.SensorEventGeneratorImpl;
 
 
 public class Application {
@@ -19,8 +19,8 @@ public class Application {
     public static void main(String... args) {
         Controller controller = configController();
         controller.refresh();
-
-        processEvent(controller);
+        SensorEventGenerator sensorEventGenerator = new SensorEventGeneratorImpl();
+        sensorEventGenerator.start(controller);
     }
 
     private static Controller configController() {
