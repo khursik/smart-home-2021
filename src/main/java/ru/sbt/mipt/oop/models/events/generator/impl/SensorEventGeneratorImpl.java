@@ -1,20 +1,15 @@
-package ru.sbt.mipt.oop.models.events;
+package ru.sbt.mipt.oop.models.events.generator.impl;
 
 import ru.sbt.mipt.oop.handler.controller.Controller;
+import ru.sbt.mipt.oop.models.events.SensorEvent;
+import ru.sbt.mipt.oop.models.events.generator.SensorEventGenerator;
 import ru.sbt.mipt.oop.models.events.impl.DoorClosedEvent;
 import ru.sbt.mipt.oop.models.events.impl.DoorOpenEvent;
 import ru.sbt.mipt.oop.models.events.impl.LightOffEvent;
 import ru.sbt.mipt.oop.models.events.impl.LightOnEvent;
 
-public class SensorEventProcessor {
+public class SensorEventGeneratorImpl implements SensorEventGenerator {
 
-    public static void processEvent(Controller controller) {
-        SensorEvent event = getNextSensorEvent();
-        while (event != null) {
-            controller.gotEvent(event);
-            event = getNextSensorEvent();
-        }
-    }
 
     private static SensorEvent getNextSensorEvent() {
         // pretend like we're getting the events from physical world, but here we're going to just generate some random events
@@ -31,5 +26,14 @@ public class SensorEventProcessor {
                 return new DoorOpenEvent(objectId);
         }
         return null;
+    }
+
+    @Override
+    public void start(Controller controller) {
+        SensorEvent event = getNextSensorEvent();
+        while (event != null) {
+            controller.gotEvent(event);
+            event = getNextSensorEvent();
+        }
     }
 }
