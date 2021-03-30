@@ -1,20 +1,16 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.models.things.impl;
 
-public class Light {
+import ru.sbt.mipt.oop.models.things.Thing;
+
+public class Light extends Thing {
     private boolean isOn;
-    private final String id;
-
     public Light(String id, boolean isOn) {
-        this.id = id;
+        super(id);
         this.isOn = isOn;
     }
 
     public boolean isOn() {
         return isOn;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public void setOn(boolean on) {
