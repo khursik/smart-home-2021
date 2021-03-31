@@ -1,78 +1,20 @@
 package ru.sbt.mipt.oop.handler;
 
+
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ApplicationContext;
 import ru.sbt.mipt.oop.handler.controller.Controller;
-import ru.sbt.mipt.oop.handler.controller.impl.ControllerImpl;
-import ru.sbt.mipt.oop.handler.model.commands.sender.CommandSender;
-import ru.sbt.mipt.oop.handler.model.commands.sender.impl.ConsoleCommandSender;
-import ru.sbt.mipt.oop.handler.model.data.Datasource;
-import ru.sbt.mipt.oop.handler.model.data.JsonDatasource;
-import ru.sbt.mipt.oop.handler.model.impl.AlarmSystemManager;
-import ru.sbt.mipt.oop.handler.model.impl.ModelImpl;
-import ru.sbt.mipt.oop.handler.model.processor.impl.*;
-import ru.sbt.mipt.oop.handler.view.LoggerImpl;
-import ru.sbt.mipt.oop.handler.view.Logger;
-import ru.sbt.mipt.oop.models.events.SensorEvent;
-import ru.sbt.mipt.oop.models.events.impl.DoorClosedEvent;
-import ru.sbt.mipt.oop.models.events.impl.DoorOpenEvent;
-import ru.sbt.mipt.oop.models.events.impl.LightOffEvent;
-import ru.sbt.mipt.oop.models.events.impl.LightOnEvent;
-import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmActivate;
-import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmDeactivate;
+import ru.sbt.mipt.oop.models.events.generator.SensorEventGenerator;
+
 
 public class Application {
 
     public static void main(String... args) {
-        Controller controller = configController();
+        ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+        Controller controller = context.getBean(Controller.class);
         controller.refresh();
-        // начинаем цикл обработки событий
-        SensorEvent event = getNextSensorEvent();
-        while (event != null) {
-            controller.gotEvent(event);
-            event = getNextSensorEvent();
-        }
+        SensorEventGenerator sensorEventGenerator = context.getBean(SensorEventGenerator.class);
+        sensorEventGenerator.start(controller);
     }
-
-    private static Controller configController() {
-        Datasource datasource = new JsonDatasource("output.json");
-        CommandSender commandSender = new ConsoleCommandSender();
-        //можно использовать di
-        Logger view = new LoggerImpl();
-
-        ModelImpl model = new ModelImpl(datasource, view, commandSender);
-        model.addProcessor(new LightOnProcessor());
-        model.addProcessor(new LightOffProcessor());
-        model.addProcessor(new DoorClosedProcessor());
-        model.addProcessor(new DoorOpenProcessor());
-        model.addProcessor(new HallDoorClosedProcessor());
-
-        AlarmSystemManager alarmSystemManager = new AlarmSystemManager(model);
-
-        Controller controller = new ControllerImpl(alarmSystemManager);
-        return controller;
-
-    }
-
-    private static SensorEvent getNextSensorEvent() {
-        // pretend like we're getting the events from physical world, but here we're going to just generate some random events
-        if (Math.random() < 0.05) return null; // null means end of event stream
-        String objectId = Integer.toString((int) (10 * Math.random()));
-        String code = Integer.toString((int) (5 * Math.random()));
-        switch ((int) (6 * Math.random())) {
-            case 0:
-                return new LightOnEvent(objectId);
-            case 1:
-                return new LightOffEvent(objectId);
-            case 2:
-                return new DoorClosedEvent(objectId);
-            case 3:
-                return new DoorOpenEvent(objectId);
-            case 4:
-                return new AlarmActivate(code);
-            case 5:
-                return new AlarmDeactivate(code);
-        }
-        return null;
-    }
-
 
 }

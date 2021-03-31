@@ -1,6 +1,6 @@
 package ru.sbt.mipt.oop.handler.model.impl;
 
-import ru.sbt.mipt.oop.handler.model.Model;
+import ru.sbt.mipt.oop.handler.model.Manager;
 import ru.sbt.mipt.oop.handler.model.commands.sender.CommandSender;
 import ru.sbt.mipt.oop.handler.model.data.Datasource;
 import ru.sbt.mipt.oop.handler.model.processor.EventProcessor;
@@ -11,7 +11,7 @@ import ru.sbt.mipt.oop.models.events.SensorEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelImpl implements Model {
+public class ManagerImpl implements Manager {
     private final Datasource datasource;
     private final Logger logger;
     private final CommandSender commandSender;
@@ -19,7 +19,7 @@ public class ModelImpl implements Model {
     private SmartHome data;
 
 
-    public ModelImpl(Datasource datasource, Logger logger, CommandSender commandSender) {
+    public ManagerImpl(Datasource datasource, Logger logger, CommandSender commandSender) {
         this.datasource = datasource;
         this.logger = logger;
         this.commandSender = commandSender;

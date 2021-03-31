@@ -1,18 +1,18 @@
 package ru.sbt.mipt.oop.handler.model.impl;
 
-import ru.sbt.mipt.oop.handler.model.Model;
+import ru.sbt.mipt.oop.handler.model.Manager;
 import ru.sbt.mipt.oop.models.events.SensorEvent;
 import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmActivate;
 import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmDeactivate;
 import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmEvent;
 
-public class AlarmSystemManager implements Model {
-    private final Model model;
+public class AlarmSystemManager implements Manager {
+    private final Manager manager;
     private State state = new DeactivatedState();
     private String code;
 
-    public AlarmSystemManager(Model model) {
-        this.model = model;
+    public AlarmSystemManager(Manager manager) {
+        this.manager = manager;
     }
 
     void changeState(State state) {
@@ -21,7 +21,7 @@ public class AlarmSystemManager implements Model {
 
     @Override
     public void loadData() {
-        model.loadData();
+        manager.loadData();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class AlarmSystemManager implements Model {
 
         @Override
         void process(SensorEvent event) {
-            model.handleEvent(event);
+            manager.handleEvent(event);
         }
     }
     class ActivatedState extends State {
