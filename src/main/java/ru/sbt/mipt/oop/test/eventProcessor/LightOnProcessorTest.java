@@ -1,20 +1,16 @@
-package ru.sbt.mipt.oop.test;
+package ru.sbt.mipt.oop.test.eventProcessor;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.sbt.mipt.oop.handler.model.data.Datasource;
 import ru.sbt.mipt.oop.handler.model.data.JsonDatasource;
 import ru.sbt.mipt.oop.handler.model.processor.EventProcessor;
-import ru.sbt.mipt.oop.handler.model.processor.impl.DoorClosedProcessor;
-import ru.sbt.mipt.oop.handler.model.processor.impl.DoorOpenProcessor;
+import ru.sbt.mipt.oop.handler.model.processor.impl.LightOnProcessor;
 import ru.sbt.mipt.oop.models.SmartHome;
 import ru.sbt.mipt.oop.models.events.SensorEvent;
-import ru.sbt.mipt.oop.models.events.impl.DoorClosedEvent;
-import ru.sbt.mipt.oop.models.events.impl.DoorOpenEvent;
+import ru.sbt.mipt.oop.models.events.impl.LightOnEvent;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class DoorOpenProcessorTest {
+class LightOnProcessorTest {
 
     @Test
     void process() {
@@ -22,9 +18,9 @@ class DoorOpenProcessorTest {
         TestCommandSender commandSender = new TestCommandSender();
         Datasource datasource = new JsonDatasource("output.json");
         SmartHome home = datasource.getSmartHome();
-        SensorEvent event = new DoorOpenEvent("1");
-        EventProcessor processor = new DoorOpenProcessor();
+        SensorEvent event = new LightOnEvent("2");
+        EventProcessor processor = new LightOnProcessor();
         processor.process(event, home, commandSender, logger);
-        Assertions.assertEquals("Door 1 in room kitchen was opened.", logger.cashedMessage);
+        Assertions.assertEquals("Light 2 in room kitchen was turned on.", logger.cashedMessage);
     }
 }

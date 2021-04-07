@@ -1,4 +1,4 @@
-package ru.sbt.mipt.oop.test;
+package ru.sbt.mipt.oop.test.eventProcessor;
 
 import ru.sbt.mipt.oop.handler.view.Logger;
 
