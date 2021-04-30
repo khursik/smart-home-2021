@@ -1,9 +1,9 @@
-package ru.sbt.mipt.oop.models.things;
+package ru.sbt.mipt.oop.models;
 
-public abstract class Thing {
+public abstract class HomeItem {
     private final String id;
 
-    public Thing(String id) {
+    public HomeItem(String id) {
         this.id = id;
     }
 

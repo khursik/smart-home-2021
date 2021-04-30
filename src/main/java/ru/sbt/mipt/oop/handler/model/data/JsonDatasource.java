@@ -2,8 +2,8 @@ package ru.sbt.mipt.oop.handler.model.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import ru.sbt.mipt.oop.models.Room;
-import ru.sbt.mipt.oop.models.SmartHome;
+import ru.sbt.mipt.oop.models.homeitems.Room;
+import ru.sbt.mipt.oop.models.homeitems.SmartHome;
 
 import java.io.IOException;
 import java.nio.file.Files;

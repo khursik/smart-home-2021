@@ -1,8 +1,9 @@
-package ru.sbt.mipt.oop.models.things.impl;
+package ru.sbt.mipt.oop.models.homeitems;
 
-import ru.sbt.mipt.oop.models.things.Thing;
 
-public class Door extends Thing {
+import ru.sbt.mipt.oop.models.HomeItem;
+
+public class Door extends HomeItem {
     private boolean isOpen;
 
     public Door(boolean isOpen, String id) {

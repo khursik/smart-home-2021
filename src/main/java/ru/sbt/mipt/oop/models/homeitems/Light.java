@@ -1,8 +1,9 @@
-package ru.sbt.mipt.oop.models.things.impl;
+package ru.sbt.mipt.oop.models.homeitems;
 
-import ru.sbt.mipt.oop.models.things.Thing;
 
-public class Light extends Thing {
+import ru.sbt.mipt.oop.models.HomeItem;
+
+public class Light extends HomeItem {
     private boolean isOn;
     public Light(String id, boolean isOn) {
         super(id);

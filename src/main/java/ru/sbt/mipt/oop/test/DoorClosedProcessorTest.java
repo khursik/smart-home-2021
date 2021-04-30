@@ -2,23 +2,18 @@ package ru.sbt.mipt.oop.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.sbt.mipt.oop.handler.model.commands.SensorCommand;
-import ru.sbt.mipt.oop.handler.model.commands.sender.CommandSender;
-import ru.sbt.mipt.oop.handler.model.commands.sender.impl.ConsoleCommandSender;
 import ru.sbt.mipt.oop.handler.model.data.Datasource;
 import ru.sbt.mipt.oop.handler.model.data.JsonDatasource;
 import ru.sbt.mipt.oop.handler.model.processor.EventProcessor;
 import ru.sbt.mipt.oop.handler.model.processor.impl.DoorClosedProcessor;
-import ru.sbt.mipt.oop.models.SmartHome;
+import ru.sbt.mipt.oop.models.homeitems.SmartHome;
 import ru.sbt.mipt.oop.models.events.SensorEvent;
 import ru.sbt.mipt.oop.models.events.impl.DoorClosedEvent;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DoorClosedProcessorTest {
 
     @Test
-    void testprocess() {
+    void testProcess() {
         TestLogger logger = new TestLogger();
         TestCommandSender commandSender = new TestCommandSender();
         Datasource datasource = new JsonDatasource("output.json");
