@@ -1,16 +1,14 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.models.homeitems;
 
-public class Door {
-    private final String id;
+
+import ru.sbt.mipt.oop.models.HomeItem;
+
+public class Door extends HomeItem {
     private boolean isOpen;
 
     public Door(boolean isOpen, String id) {
+        super(id);
         this.isOpen = isOpen;
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public void setOpen(boolean open) {

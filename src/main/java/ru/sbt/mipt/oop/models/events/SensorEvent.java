@@ -1,16 +1,10 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.models.events;
 
-public class SensorEvent {
-    private final SensorEventType type;
+public abstract class SensorEvent {
     private final String objectId;
 
-    public SensorEvent(SensorEventType type, String objectId) {
-        this.type = type;
+    public SensorEvent(String objectId) {
         this.objectId = objectId;
-    }
-
-    public SensorEventType getType() {
-        return type;
     }
 
     public String getObjectId() {
@@ -20,7 +14,7 @@ public class SensorEvent {
     @Override
     public String toString() {
         return "SensorEvent{" +
-                "type=" + type +
+                "type=" + this.getClass().toString() +
                 ", objectId='" + objectId + '\'' +
                 '}';
     }
