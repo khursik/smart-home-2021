@@ -41,6 +41,11 @@ public class HomeBuilder {
                 new Light("8", false),
                 new Light("9", false),
                 new Door(false, "4"));
+        Room corridor = new Room("corridor");
+        hall.addThings(
+                new Light("10", false),
+                new Light("11", false),
+                new Light("12", false));
 
         SmartHome smartHome = new SmartHome(Arrays.asList(kitchen, bathroom, bedroom, hall));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

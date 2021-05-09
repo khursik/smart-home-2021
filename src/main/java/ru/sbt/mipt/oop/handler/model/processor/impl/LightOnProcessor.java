@@ -17,9 +17,9 @@ public class LightOnProcessor implements EventProcessor {
     public void process(SensorEvent event, SmartHome home, CommandSender commandSender, Logger logger) {
         if (event instanceof LightOnEvent) {
             home.execute((thing, name) -> {
-                if (thing.getId().equals(event.getObjectId()) && (thing instanceof Light)) {
+                if (event.getObjectId() == null || thing.getId().equals(event.getObjectId()) && (thing instanceof Light)) {
                     ((Light) thing).setOn(true);
-                    logger.printMessage("Light " + event.getObjectId() +" in room " + name + " was turned on.");
+                    logger.printMessage("Light " + thing.getId() +" in room " + name + " was turned on.");
                 }
             });
         }

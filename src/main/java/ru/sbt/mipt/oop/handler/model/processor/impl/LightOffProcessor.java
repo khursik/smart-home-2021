@@ -17,11 +17,12 @@ public class LightOffProcessor implements EventProcessor {
     public void process(SensorEvent event, SmartHome home, CommandSender commandSender, Logger logger) {
         if (event instanceof LightOffEvent) {
             home.execute((thing, name) -> {
-                if (thing.getId().equals(event.getObjectId()) && (thing instanceof Light)) {
+                if (event.getObjectId() == null || thing.getId().equals(event.getObjectId()) && (thing instanceof Light)) {
                     ((Light) thing).setOn(false);
-                    logger.printMessage("Light " + event.getObjectId() +" in room " + name + " was turned off.");
+                    logger.printMessage("Light " + thing.getId() +" in room " + name + " was turned off.");
                 }
             });
         }
+
     }
 }

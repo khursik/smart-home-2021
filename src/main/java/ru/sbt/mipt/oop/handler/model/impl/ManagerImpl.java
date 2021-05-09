@@ -26,6 +26,10 @@ public class ManagerImpl implements Manager {
         this.processors = new ArrayList<>();
     }
 
+    public SmartHome getData() {
+        return data;
+    }
+
     @Override
     public void loadData() {
         data = datasource.getSmartHome();

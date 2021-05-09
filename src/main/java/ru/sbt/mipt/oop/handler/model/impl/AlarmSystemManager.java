@@ -5,6 +5,7 @@ import ru.sbt.mipt.oop.models.events.SensorEvent;
 import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmActivate;
 import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmDeactivate;
 import ru.sbt.mipt.oop.models.events.impl.alarm.AlarmEvent;
+import ru.sbt.mipt.oop.models.events.impl.alarm.TurnOnAlarm;
 
 public class AlarmSystemManager implements Manager {
     private final Manager manager;
@@ -15,8 +16,12 @@ public class AlarmSystemManager implements Manager {
         this.manager = manager;
     }
 
-    void changeState(State state) {
+    public void changeState(State state) {
         this.state = state;
+    }
+
+    public State getState() {
+        return state;
     }
 
     @Override
@@ -30,8 +35,8 @@ public class AlarmSystemManager implements Manager {
         state.template(event);
     }
 
-
     abstract class State {
+
         void template(SensorEvent event) {
             if (isAlarmEvent(event)) {
                 processAlarmEvent(event);
@@ -55,7 +60,11 @@ public class AlarmSystemManager implements Manager {
             return true;
         }
 
-        void processAlarmEvent(SensorEvent event) {}
+        void processAlarmEvent(SensorEvent event) {
+            if (event instanceof TurnOnAlarm) {
+                changeState(new AlarmState());
+            }
+        }
 
         boolean needToSendSms() {
             return true;
@@ -64,9 +73,9 @@ public class AlarmSystemManager implements Manager {
         void sendSms() {
             System.out.println("Sending sms");
         }
-
     }
     class DeactivatedState extends State {
+
 
         @Override
         boolean needToSendSms() {
@@ -75,20 +84,22 @@ public class AlarmSystemManager implements Manager {
 
         @Override
         void processAlarmEvent(SensorEvent event) {
+            super.processAlarmEvent(event);
             if (event instanceof AlarmActivate) {
                 code = ((AlarmActivate) event).getCode();
                 changeState(new ActivatedState());
             }
         }
-
         @Override
         void process(SensorEvent event) {
             manager.handleEvent(event);
         }
     }
-    class ActivatedState extends State {
+    public class ActivatedState extends State {
+
         @Override
         void processAlarmEvent(SensorEvent event) {
+            super.processAlarmEvent(event);
             if (event instanceof AlarmDeactivate) {
                 if (code.equals(((AlarmDeactivate) event).getCode())) {
                     changeState(new DeactivatedState());
@@ -98,20 +109,20 @@ public class AlarmSystemManager implements Manager {
                 }
             }
         }
-
         @Override
         void process(SensorEvent event) {
             changeState(new AlarmState());
         }
     }
-    class AlarmState extends State {
+    public class AlarmState extends State {
+
         @Override
         boolean needToProcess() {
             return false;
         }
-
         @Override
         void processAlarmEvent(SensorEvent event) {
+            super.processAlarmEvent(event);
             if (event instanceof AlarmDeactivate) {
                 if (code.equals(((AlarmDeactivate) event).getCode())) {
                     changeState(new DeactivatedState());
@@ -119,5 +130,6 @@ public class AlarmSystemManager implements Manager {
                 }
             }
         }
+
     }
 }
