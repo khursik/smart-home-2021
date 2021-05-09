@@ -8,7 +8,7 @@ import ru.sbt.mipt.oop.handler.model.data.Datasource;
 import ru.sbt.mipt.oop.handler.model.data.JsonDatasource;
 import ru.sbt.mipt.oop.handler.model.impl.ManagerImpl;
 import ru.sbt.mipt.oop.handler.model.impl.AlarmSystemManager;
-import ru.sbt.mipt.oop.handler.model.impl.ModelImpl;
+import ru.sbt.mipt.oop.handler.model.impl.ManagerImpl;
 import ru.sbt.mipt.oop.handler.model.processor.impl.*;
 import ru.sbt.mipt.oop.handler.view.LoggerImpl;
 import ru.sbt.mipt.oop.handler.view.Logger;
@@ -44,8 +44,9 @@ public class Application {
         manager.addProcessor(new DoorClosedProcessor());
         manager.addProcessor(new DoorOpenProcessor());
         manager.addProcessor(new HallDoorClosedProcessor());
+        manager.addProcessor(new SendSMSProcessor());
 
-        AlarmSystemManager alarmSystemManager = new AlarmSystemManager(model);
+        AlarmSystemManager alarmSystemManager = new AlarmSystemManager(manager);
 
         Controller controller = new ControllerImpl(alarmSystemManager);
         return controller;

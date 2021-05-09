@@ -19,7 +19,7 @@ public class ManagerImpl implements Manager {
     private SmartHome data;
 
 
-    public ManagerImpl(Datasource datasource, Logger view, CommandSender commandSender) {
+    public ManagerImpl(Datasource datasource, Logger logger, CommandSender commandSender) {
         this.datasource = datasource;
         this.logger = logger;
         this.commandSender = commandSender;
