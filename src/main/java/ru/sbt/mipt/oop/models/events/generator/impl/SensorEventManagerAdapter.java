@@ -6,35 +6,32 @@ import ru.sbt.mipt.oop.models.events.generator.SensorEventGenerator;
 import ru.sbt.mipt.oop.models.events.impl.*;
 import ru.sbt.mipt.oop.side.library.events.SensorEventsManager;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+
 public class SensorEventManagerAdapter implements SensorEventGenerator {
+    private final Map<String, Function<String, SensorEvent>> ccSensorEventTypeToConstructor;
+
+    public SensorEventManagerAdapter() {
+        ccSensorEventTypeToConstructor = new HashMap<>();
+        ccSensorEventTypeToConstructor.put("LightIsOn", LightOnEvent::new);
+        ccSensorEventTypeToConstructor.put("LightIsOff", LightOffEvent::new);
+        ccSensorEventTypeToConstructor.put("DoorIsOpen", DoorOpenEvent::new);
+        ccSensorEventTypeToConstructor.put("DoorIsClosed", DoorClosedEvent::new);
+        ccSensorEventTypeToConstructor.put("DoorIsLocked", DoorLockedEvent::new);
+        ccSensorEventTypeToConstructor.put("DoorIsUnlocked", DoorUnlockedEvent::new);
+    }
 
 
     @Override
     public void start(Controller controller) {
         SensorEventsManager sensorEventsManager = new SensorEventsManager();
         sensorEventsManager.registerEventHandler(event -> {
-            EventParsingType eventParsingType = EventParsingType.valueOf(event.getEventType());
-            SensorEvent sensorEvent = eventParsingType.creator.create(event.getObjectId());
-            controller.gotEvent(sensorEvent);
+            Function<String, SensorEvent> eventConstructor = ccSensorEventTypeToConstructor.get(event.getEventType());
+            controller.gotEvent(eventConstructor.apply(event.getObjectId()));
         });
         sensorEventsManager.start();
-    }
-
-    private enum EventParsingType {
-        LightIsOn(LightOnEvent::new),
-        LightIsOff(LightOffEvent::new),
-        DoorIsOpen(DoorOpenEvent::new),
-        DoorIsClosed(DoorClosedEvent::new),
-        DoorIsLocked(DoorLockedEvent::new),
-        DoorIsUnlocked(DoorUnlockedEvent::new);
-        private final SensorEventCreator creator;
-
-        EventParsingType(SensorEventCreator creator) {
-            this.creator = creator;
-        }
-    }
-
-    private interface SensorEventCreator<T extends SensorEvent> {
-        T create(String id);
     }
 }
