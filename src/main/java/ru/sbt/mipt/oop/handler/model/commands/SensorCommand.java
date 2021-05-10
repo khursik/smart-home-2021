@@ -1,18 +1,16 @@
-package ru.sbt.mipt.oop;
+package ru.sbt.mipt.oop.handler.model.commands;
 
-public class SensorCommand {
-    private final CommandType type;
+public abstract class SensorCommand {
     private final String objectId;
 
-    public SensorCommand(CommandType type, String objectId) {
-        this.type = type;
+    public SensorCommand(String objectId) {
         this.objectId = objectId;
     }
 
     @Override
     public String toString() {
         return "SensorCommand{" +
-                "type=" + type +
+                "type=" + this.getClass().getSimpleName() +
                 ", objectId='" + objectId + '\'' +
                 '}';
     }
