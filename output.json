@@ -1,0 +1,92 @@
+{
+  "rooms": [
+    {
+      "things": {
+        "class ru.sbt.mipt.oop.models.things.impl.Light": [
+          {
+            "isOn": false,
+            "id": "1"
+          },
+          {
+            "isOn": true,
+            "id": "2"
+          }
+        ],
+        "class ru.sbt.mipt.oop.models.things.impl.Door": [
+          {
+            "isOpen": false,
+            "id": "1"
+          }
+        ]
+      },
+      "name": "kitchen"
+    },
+    {
+      "things": {
+        "class ru.sbt.mipt.oop.models.things.impl.Light": [
+          {
+            "isOn": true,
+            "id": "3"
+          }
+        ],
+        "class ru.sbt.mipt.oop.models.things.impl.Door": [
+          {
+            "isOpen": false,
+            "id": "2"
+          }
+        ]
+      },
+      "name": "bathroom"
+    },
+    {
+      "things": {
+        "class ru.sbt.mipt.oop.models.things.impl.Light": [
+          {
+            "isOn": false,
+            "id": "4"
+          },
+          {
+            "isOn": false,
+            "id": "5"
+          },
+          {
+            "isOn": false,
+            "id": "6"
+          }
+        ],
+        "class ru.sbt.mipt.oop.models.things.impl.Door": [
+          {
+            "isOpen": true,
+            "id": "3"
+          }
+        ]
+      },
+      "name": "bedroom"
+    },
+    {
+      "things": {
+        "class ru.sbt.mipt.oop.models.things.impl.Light": [
+          {
+            "isOn": false,
+            "id": "7"
+          },
+          {
+            "isOn": false,
+            "id": "8"
+          },
+          {
+            "isOn": false,
+            "id": "9"
+          }
+        ],
+        "class ru.sbt.mipt.oop.models.things.impl.Door": [
+          {
+            "isOpen": false,
+            "id": "4"
+          }
+        ]
+      },
+      "name": "hall"
+    }
+  ]
+}
