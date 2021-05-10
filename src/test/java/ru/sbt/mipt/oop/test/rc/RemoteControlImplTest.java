@@ -1,5 +1,6 @@
 package ru.sbt.mipt.oop.test.rc;
 
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ import ru.sbt.mipt.oop.handler.model.impl.ManagerImpl;
 import ru.sbt.mipt.oop.models.things.impl.Door;
 import ru.sbt.mipt.oop.models.things.impl.Light;
 import ru.sbt.mipt.oop.side.library.rc.RemoteControl;
-
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RemoteControlImplTest {
@@ -60,6 +60,7 @@ class RemoteControlImplTest {
             }
         });
     }
+
     @Test
     void testTurnOnAlarmCommand() {
         RemoteControl control = new RemoteControlImpl("385").

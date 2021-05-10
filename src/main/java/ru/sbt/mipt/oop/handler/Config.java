@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.sbt.mipt.oop.handler.controller.Controller;
 import ru.sbt.mipt.oop.handler.controller.impl.ControllerImpl;
 import ru.sbt.mipt.oop.handler.controller.rc.Command;
+import ru.sbt.mipt.oop.handler.controller.rc.RemoteControlImpl;
 import ru.sbt.mipt.oop.handler.controller.rc.impl.*;
 import ru.sbt.mipt.oop.handler.model.Manager;
 import ru.sbt.mipt.oop.handler.model.commands.sender.CommandSender;
@@ -19,6 +20,9 @@ import ru.sbt.mipt.oop.handler.view.Logger;
 import ru.sbt.mipt.oop.handler.view.LoggerImpl;
 import ru.sbt.mipt.oop.models.events.generator.SensorEventGenerator;
 import ru.sbt.mipt.oop.models.events.generator.impl.SensorEventManagerAdapter;
+import ru.sbt.mipt.oop.side.library.rc.RemoteControl;
+import ru.sbt.mipt.oop.side.library.rc.RemoteControlRegistry;
+
 
 import java.util.Collection;
 import java.util.List;
@@ -115,5 +119,22 @@ public class Config {
 
     @Bean
     Command turnOnLightsCommand(Manager alarmSystemManager) {return new TurnOnLightsCommand(alarmSystemManager);}
+
+    @Bean
+    RemoteControl remoteControlImpl(Collection<Command> commands) {
+        String[] buttonCodes = {"A", "B", "C", "1", "2", "3"};
+        RemoteControlImpl rc = new RemoteControlImpl("123");
+        int i = 0;
+        for (Command command : commands) {
+            rc.registerCommand(buttonCodes[i], command);
+            ++i;
+        }
+        return rc; }
+
+    @Bean
+    RemoteControlRegistry remoteControlRegistry(RemoteControl remoteControl) {
+        RemoteControlRegistry remoteControlRegistry = new RemoteControlRegistry();
+        remoteControlRegistry.registerRemoteControl(remoteControl, "123");
+        return remoteControlRegistry;}
 
 }
