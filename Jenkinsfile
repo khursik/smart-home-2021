@@ -12,7 +12,7 @@ node {
             sh 'mvn clean package'
         }
     }
-    stage('Code Quality Check via Sonar'){
+    stage('Sonar'){
         def scannerHome = tool 'MySonar'
         withSonarQubeEnv('MySonar') {
             sh "${scannerHome}/bin/sonar-scanner \
