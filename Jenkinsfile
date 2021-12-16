@@ -1,5 +1,5 @@
 String repoUrl = "https://github.com/khursik/smart-home-2021.git"
-String branchName = "Jenkins"
+String branchName = "Jenkins2"
 String javaHome = "JAVA_HOME=/usr/lib/jvm/java-11-openjdk"
 
 node {
